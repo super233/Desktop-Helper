@@ -1,13 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 
 public class ChatWithTuling : MonoBehaviour
 {
+    // 情感指数相关的变量
+    public static float rate = 0;   // 积极指数 - 消极指数的值
+    public static bool flag = false;    // 表示是否有数值产生
+
     //UI类
     public Text text;
     public InputField inputField;
 
-    //GameObject类，在Unity中，文件时一样的，只是UI类方便取数据，GameObject类方便设置可见性
+    //GameObject类，在Unity中，文件是一样的，只是UI类方便取数据，GameObject类方便设置可见性
     public GameObject textObject;
     public GameObject inputFiledObject;
 
@@ -34,7 +40,7 @@ public class ChatWithTuling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //按C键打开与关闭输入框
+        //按F7键打开与关闭输入框
         if (Input.GetKeyDown(KeyCode.F7))
         {
             inputFiledObject.SetActive(!inputFiledObject.activeSelf);
@@ -44,6 +50,11 @@ public class ChatWithTuling : MonoBehaviour
         if (inputFiledObject.activeSelf == true && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
         {
             string output = TulingChatMachine.Chat(inputField.text);        //发送消息，并接受消息
+
+            // 获取情绪识别的结果，并计算rate值
+            Dictionary<string, float> recogRet = EmotionRecognition.Recognition(output);
+            rate = recogRet["optimistic"] - recogRet["pessimistic"];
+            flag = true;
 
             ////语音转文字，存储语音
             //if (inputField.text != null)

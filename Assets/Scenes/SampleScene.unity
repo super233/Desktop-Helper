@@ -251,7 +251,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u5475\u5475\u54D2"
+  m_Text: "\u6587\u672C\u6846"
 --- !u!222 &419651621
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -436,6 +436,7 @@ GameObject:
   - component: {fileID: 907668855}
   - component: {fileID: 907668859}
   - component: {fileID: 907668860}
+  - component: {fileID: 907668861}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -636,6 +637,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &907668861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907668854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fac70ee5d85e242b23b6c3cbce087a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputFiled: {fileID: 1769551870}
+  audioData: 
+  samples: []
+  rec_result: 
+  is_get_result: 0
 --- !u!1 &1149900096
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,7 +689,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 45d4c192a53035644a249c7b0c3d65b9, type: 3}
   - {fileID: 2800000, guid: 13dfcbe67b45f5e46bbee00cf57beeac, type: 3}
   - {fileID: 2800000, guid: 2cb05a5c4350bab4788ca24e3bc50b58, type: 3}
-  physicsFile: {fileID: 4900000, guid: 6388e00e963f4324c9dc406940ecf936, type: 3}
+  physicsFile: {fileID: 4900000, guid: cbf593aa0e13403469dcb79f16dcc0ab, type: 3}
   mtnFiles:
   - {fileID: 4900000, guid: cef262879347c4d4b8ac93d9c87396e9, type: 3}
   - {fileID: 4900000, guid: 64ada0c27ba7da346999b3037c1edb2c, type: 3}
@@ -698,21 +716,21 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 3d35fa1cfd5c8694f82f9b90072f94df, type: 3}
   - {fileID: 4900000, guid: 29cdd0ae4c5c29e4085e75abea2d0c04, type: 3}
   audioClips:
-  - {fileID: 8300000, guid: 2410754aaa9650743b2bfd3bb913cf8c, type: 3}
+  - {fileID: 8300000, guid: c552adf1dcf08024c815dd4c0b7ea7d4, type: 3}
   - {fileID: 8300000, guid: 259f6a479e20aeb469d5ced3b450cadb, type: 3}
   - {fileID: 8300000, guid: 53574d166d6ee494fa21dd0d2a19eb75, type: 3}
-  - {fileID: 8300000, guid: 00fdc5ddbd23aa247bf81f87ecbe207b, type: 3}
+  - {fileID: 8300000, guid: d1863d858a090ab46968cf03b8478831, type: 3}
   - {fileID: 8300000, guid: c67b6428731961d4fbc75cd8d54fafb2, type: 3}
   - {fileID: 8300000, guid: fb3bab38ca05a1d47b92ce355cf6232c, type: 3}
-  - {fileID: 8300000, guid: ffea6c1c92280824fbf23916a0377143, type: 3}
+  - {fileID: 8300000, guid: 8e8d40e3836ccf847818e197a6de1fe7, type: 3}
   - {fileID: 8300000, guid: 541e3ae1a7c907e40a0e9cb54eb30035, type: 3}
   - {fileID: 8300000, guid: 9994ead645c09444b87eaf9a6cb2234a, type: 3}
-  - {fileID: 8300000, guid: f17229e234b0956408da3b70529b7e1d, type: 3}
+  - {fileID: 8300000, guid: 6cabf68c768dfeb42ac55dbf651ca44d, type: 3}
   - {fileID: 8300000, guid: 9e53c4e636dfb5d44810f6f3fe4c6dce, type: 3}
   - {fileID: 8300000, guid: 5bff0fc08882e9347a16ec4ef4b1c64a, type: 3}
-  - {fileID: 8300000, guid: 79d80129442667e4eb652a2e6c088de9, type: 3}
-  - {fileID: 8300000, guid: 71a4e6b66215bc34b9d6365a207e3710, type: 3}
-  - {fileID: 8300000, guid: b241356d89048834abd071dc95759c98, type: 3}
+  - {fileID: 8300000, guid: 70743bd5f23cba74e9ebca3bad4dd645, type: 3}
+  - {fileID: 8300000, guid: 80d17078ac8320740a3cb2931234dfd9, type: 3}
+  - {fileID: 8300000, guid: 1f8458e3e78bf03428faf3ba6106e8fe, type: 3}
   audioSource: {fileID: 1149900099}
 --- !u!4 &1149900098
 Transform:

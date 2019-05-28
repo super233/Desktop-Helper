@@ -3,9 +3,17 @@ using UnityEngine.EventSystems;
 using live2d;
 using live2d.framework;
 using System;
+using Random = System.Random;
 
 public class Live2DModel : MonoBehaviour
 {
+    // 情感指数相关的变量
+    public float rate = 0;  // 积极指数 - 消极指数的值
+    private int[] optimisticIndex = { 2, 4, 5, 10, 12 };    // 积极动作的下标数组
+    private int[] pessimisticIndex = { 6, 7, 8, 9, 13, 14, 15 };    // 消极动作的下标数组
+    private int[] neutralIndex = { 1, 3, 11 };      // 中立动作的下标数组
+
+
     //模型相关
     public TextAsset mocFile;                           //从Unity内获取的模型文件（moc）
     public Texture2D[] textureFiles;                    //从Unity内获取贴图文件
@@ -21,7 +29,7 @@ public class Live2DModel : MonoBehaviour
     private Live2DMotion[] motions;                     //动作对象数组
     private L2DMotionManager motionManager = new L2DMotionManager();             //动作管理者对象
     private EyeBlinkMotion eyeBlinkMotion = new EyeBlinkMotion();               //眨眼的动作对象
-    private int motionIndex = 0;
+    //private int motionIndex = 0;
 
     //表情相关
     public TextAsset[] expressionFiles;                 //存储表情文件
@@ -60,6 +68,34 @@ public class Live2DModel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        int motionIndex = 0;
+
+        // 根据返回的情感指数，在对应情感动作中随机选取
+        if (ChatWithTuling.flag == true)
+        {
+            rate = ChatWithTuling.rate;
+            // 积极动作
+            if (rate > 0.5)
+            {
+                motionIndex = optimisticIndex[getRandomIndex(optimisticIndex.Length)];
+            }
+            // 消极动作
+            else if (rate < 0)
+            {
+                motionIndex = pessimisticIndex[getRandomIndex(pessimisticIndex.Length)];
+            }
+            // 中立动作
+            else
+            {
+                motionIndex = neutralIndex[getRandomIndex(neutralIndex.Length)];
+            }
+
+            print("rate: " + rate + ", motionIndex: " + motionIndex);
+
+            ChatWithTuling.flag = false;
+        }
+        
+
         //为模型设置用于显示的画布，后面是2个矩阵相乘
         live2DModel.setMatrix(transform.localToWorldMatrix * live2DCancasPos);
 
@@ -70,34 +106,45 @@ public class Live2DModel : MonoBehaviour
         eyeBlinkMotion.setParam(live2DModel);
 
         //按M键切换动作并播放声音
-        if (motionManager.isFinished())             //动作完成，切换到默认的动作
+        if (motionManager.isFinished())                         //动作完成，切换到默认的动作
         {
             motionManager.startMotionPrio(motions[0], 1);       //默认的动作的优先级为1，数值较高，优先级较大
         }
-        else if (Input.GetKeyDown(KeyCode.M))
+        // 展示特定情绪的动作
+        else if (motionIndex != 0)
         {
             motionManager.startMotionPrio(motions[motionIndex], 2);     //新动作的优先级为2
-            motionIndex++;
-
-            print("motion index: " + motionIndex + "\n");
-
-            if (motionIndex >= motions.Length)
-            {
-                motionIndex = 0;
-            }
-
-
-            //播放声音
-            audioSource.clip = audioClips[audioIndex];
-            audioSource.Play();
-
-            audioIndex++;
-            if (audioIndex >= audioClips.Length)
-            {
-                audioIndex = 0;
-            }
-
         }
+
+        ////按M键切换动作并播放声音
+        //if (motionManager.isFinished())                         //动作完成，切换到默认的动作
+        //{
+        //    motionManager.startMotionPrio(motions[0], 1);       //默认的动作的优先级为1，数值较高，优先级较大
+        //}
+        //else if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    motionManager.startMotionPrio(motions[motionIndex], 2);     //新动作的优先级为2
+        //    //motionIndex++;
+
+        //    print("motion index: " + motionIndex + "\n");
+
+        //    if (motionIndex >= motions.Length)
+        //    {
+        //        motionIndex = 0;
+        //    }
+
+
+        //    //播放声音
+        //    audioSource.clip = audioClips[audioIndex];
+        //    audioSource.Play();
+
+        //    audioIndex++;
+        //    if (audioIndex >= audioClips.Length)
+        //    {
+        //        audioIndex = 0;
+        //    }
+
+        //}
         motionManager.updateParam(live2DModel);             //设置了动作后，更新模型的参数
 
         //表情的动作是一直保持的
@@ -117,42 +164,6 @@ public class Live2DModel : MonoBehaviour
 
         Vector3 mousePos = Input.mousePosition;         //获得鼠标的坐标
 
-        //print("Mouse Position: (" + mousePos.x + ", " + mousePos.y + ")\t" + "Width: " + Screen.width + ", Height: " + Screen.height + "\n");
-        
-        ////切换动作
-        //if (motionManager.isFinished())             //动作完成，切换到默认的动作
-        //{
-        //    motionManager.startMotionPrio(motions[0], 1);       //默认的动作的优先级为1，数值较高，优先级较大
-        //}
-        //else if (Input.GetMouseButtonDown(0) && mousePos.x >= 61 * PARAM && mousePos.x <= 140 * PARAM && mousePos.y >= 130 * PARAM && mousePos.y <= 273 * PARAM)
-        //{
-        //    motionManager.startMotionPrio(motions[motionIndex], 2);     //新动作的优先级为2
-        //    motionIndex++;
-
-        //    print("motion index: " + motionIndex + "\n");
-
-        //    if (motionIndex >= motions.Length)
-        //    {
-        //        motionIndex = 0;
-        //    }
-        //}
-        //motionManager.updateParam(live2DModel);             //设置了动作后，更新模型的参数
-
-        ////切换表情
-        //if (Input.GetMouseButtonDown(1) && mousePos.x >= 65 * PARAM && mousePos.x <= 140 * PARAM && mousePos.y >= 300 * PARAM && mousePos.y <= 387 * PARAM)
-        //{
-        //    expressionManager.startMotion(expressions[expressionIndex]);
-        //    expressionManager.updateParam(live2DModel);
-
-        //    print("expression index: " + expressionIndex + "\n");
-
-        //    expressionIndex++;
-        //    if (expressionIndex >= expressionFiles.Length)
-        //    {
-        //        expressionIndex = 0;
-        //    }
-        //}
-
         //更新模型参数，使模型随着鼠标运动
         l2DTargetPoint.Set(mousePos.x / Screen.width * 2 - 1, mousePos.y / Screen.height * 2 - 1);      //将鼠标坐标缩放到[-1, 1]，然后存储到l2DTargetPoint中     
         l2DTargetPoint.update();
@@ -167,9 +178,6 @@ public class Live2DModel : MonoBehaviour
 
         //更新模型的参数，放在Updat()函数后面
         live2DModel.update();
-
-
-        
     }
 
     private void OnRenderObject()
@@ -193,6 +201,8 @@ public class Live2DModel : MonoBehaviour
         //初始化显示的画布，后面的参数一定不要错，😭
         float modelWidth = live2DModel.getCanvasWidth();
         live2DCancasPos = Matrix4x4.Ortho(0, modelWidth, modelWidth, 0, -50, 50);
+
+        print("模型文件和贴图文件加载成功！");
     }
 
 
@@ -205,6 +215,7 @@ public class Live2DModel : MonoBehaviour
         {
             motions[i] = Live2DMotion.loadMotion(mtnFiles[i].bytes);
         }
+        print("动作文件加载成功！");
     }
 
     //加载表情文件
@@ -216,11 +227,20 @@ public class Live2DModel : MonoBehaviour
         {
             expressions[i] = L2DExpressionMotion.loadJson(expressionFiles[i].bytes);
         }
+        print("表情文件加载成功！");
     }
 
     //加载物理文件
     private void LoadPhysics()
     {
         physics = L2DPhysics.load(physicsFile.bytes);
+        print("物理文件加载成功！");
+    }
+
+    // 获得指定范围内的整数值，用于随机产生数组下标
+    private int getRandomIndex(int arrayLength)
+    {
+        Random random = new Random();
+        return random.Next(0, arrayLength - 1);
     }
 }

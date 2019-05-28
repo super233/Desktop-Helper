@@ -558,7 +558,9 @@ PlayerSettings:
     daydream:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Collab: 0
+    UNet: 1
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -578,10 +580,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: f3a5d480-7875-4a19-952a-f3c37f4e3d32
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Demo v1.3
+  organizationId: wechat_os_qy0_0gn2kqnykfvo14wddvwsw
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
